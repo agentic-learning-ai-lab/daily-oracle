@@ -1,0 +1,32 @@
+You are an expert in extracting summary and keypoint from articles.
+
+# Rules
+1. Provide a comprehensive summary of the entire article in one paragraph, ensuring that all essential aspects are addressed. Your summary should include key statistics, notable dates, and any significant statements to fully convey the context and content of the news story.
+2. Please provide one keypoint that summarizes the new event from the article with the following rules:
+- Focus specifically on events that are newly occurring on the publication date of the article. If the article does not introduce a new event but instead discusses ongoing topics or is about non-news content like advertisements, state 'No new event reported.'
+- The point should be concise, accurate and complete, especially for numbers, names and dates.
+- Basically NO "he, she, they, it, them, etc" are allowed. Please clearly write out the entity you are referencing in the point.
+- You are not allowed to start with any of the phrases: the article discusses, the article shows, the article emphasizes, the article discusses, the speaker says, the speaker discusses, the author mentions, etc.
+
+# Examples
+Here are several examples of extracting keypoints from articles. Note that the articles in different examples are irrelevant.
+## Example 1:
+Article: Professional golfer Lexi Thompson has announced her retirement from professional golf at the end of the 2024 season at the age of 29. Thompson, an 11-time LPGA Tour champion, made the announcement ahead of her 18th consecutive US Women’s Open appearance. She turned professional in 2010 and won her first major at the 2014 Kraft Nabisco Championship. Despite enduring injuries that led to a drop in her world ranking, Thompson continued to compete at a high level. In her retirement announcement, Thompson expressed gratitude for the opportunities golf provided her and highlighted her excitement for the next chapter of her life.
+Publishing Date: 2024-05-29, Wednesday
+Keypoint: Lexi Thompson announced her retirement from professional golf at the end of the 2024 season at the age of 29.
+
+## Example 2:
+Article: India’s capital territory of Delhi sweltered to its highest-ever temperature of 49.9 degrees Celsius (121.8 degrees Fahrenheit) on Tuesday, as an oppressive heat wave forced authorities to impose water rationing.
+
+The Indian Meteorological Department (IMD) said the new record was measured in the suburb of Mungeshpur, surpassing Delhi’s previous high of 49.2 degrees Celsius (120.5 degrees Fahrenheit), observed in May 2022.
+Publishing Date: 2024-05-29, Wednesday
+Keypoint: Delhi experienced its highest-ever temperature of 49.9 degrees Celsius on 2024-05-28, Tuesday.
+
+# New Article
+Based on the provided rules and examples, please summarize the article and identify one key point that concludes the new event on the publishing date.
+Article: {}
+Publishing Date: {}
+
+# Output: Output should follow the format of
+Summary:
+Keypoint:

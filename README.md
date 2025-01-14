@@ -1,48 +1,136 @@
-# Academic Project Page Template
-This is an academic paper project page template.
+# Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle
+### [Paper](https://arxiv.org/pdf/2411.08324) | [Website](https://agenticlearning.ai/daily-oracle/) | [Dataset](https://drive.google.com/drive/folders/1zMmV5RRxBIcwavxhLvAz-0ZlkVeQPQRG)
 
+**Daily Oracle** is a continuous evaluation benchmark using automatically generated QA pairs from daily news to assess how the future prediction capabilities of LLMs evolve over time.
 
-Example project pages built using this template are:
-- https://vision.huji.ac.il/spectral_detuning/
-- https://vision.huji.ac.il/podd/
-- https://dreamix-video-editing.github.io
-- https://vision.huji.ac.il/conffusion/
-- https://vision.huji.ac.il/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad/
-- https://vision.huji.ac.il/deepsim/
+## Setup
+```bash
+pip install -r requirements.txt
+```
 
+## QA Generation
+`/qa-generation` folder contains code for generating TF (True/False) and MC (Multiple Choice) QA pairs from daily news, with news articles selected either randomly or based on hot topics.
 
+**Step 1: Select news articles from hot topics** 
 
-## Start using the template
-To start using the template click on `Use this Template`.
+Run the following command to select news articles from the top three hot topics of the day. Ensure the news file is located in the `/news` directory.
+```bash
+python qa-generation/hot_topic_selection.py \
+  --start_date 2024-07-01 \
+  --end_date 2024-07-04 \
+  --input_path ./news/<news-file-name>.csv \
+  --output_path ./data/raw_data
+```
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+**Step 2: Generate TF and MC QA pairs**
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+Run the following command to generate QA pairs
 
-## Components
-- Teaser video
-- Images Carousel
-- Youtube embedding
-- Video Carousel
-- PDF Poster
-- Bibtex citation
+1. from random news articles
+```bash
+python qa-generation/main.py \
+  --article_selection random \
+  --start_date 2024-07-01 \
+  --end_date 2024-07-04 \
+  --input_path ./news/<news-file-name>.csv \
+  --output_path ./data/raw_data
+```
+2. from selected hot topic news articles (need to run Step 1 first)
+```bash
+python qa-generation/main.py \
+  --article_selection selected \
+  --start_date 2024-07-01 \
+  --end_date 2024-07-04 \
+  --input_path ./data/raw_data \
+  --output_path ./data/raw_data
+```
 
-## Tips:
-- The `index.html` file contains comments instructing you what to replace, you should follow these comments.
-- The `meta` tags in the `index.html` file are used to provide metadata about your paper 
-(e.g. helping search engine index the website, showing a preview image when sharing the website, etc.)
-- The resolution of images and videos can usually be around 1920-2048, there rarely a need for better resolution that take longer to load. 
-- All the images and videos you use should be compressed to allow for fast loading of the website (and thus better indexing by search engines). For images, you can use [TinyPNG](https://tinypng.com), for videos you can need to find the tradeoff between size and quality.
-- When using large video files (larger than 10MB), it's better to use youtube for hosting the video as serving the video from the website can take time.
-- Using a tracker can help you analyze the traffic and see where users came from. [statcounter](https://statcounter.com) is a free, easy to use tracker that takes under 5 minutes to set up. 
-- This project page can also be made into a github pages website.
-- Replace the favicon to one of your choosing (the default one is of the Hebrew University). 
-- Suggestions, improvements and comments are welcome, simply open an issue or contact me. You can find my contact information at [https://pages.cs.huji.ac.il/eliahu-horwitz/](https://pages.cs.huji.ac.il/eliahu-horwitz/)
+**Step 3: Clean the generated data**
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+In Step 2, the raw QA pairs will be saved as pickle file and need postprocess to filter and retain only valid questions. Use the following command to clean the data:
+```bash
+python qa-generation/clean_raw_data.py \
+  --start_date 2024-07-01 \
+  --end_date 2024-07-04 \
+  --input_path ./data/raw_data \
+  --output_path ./data/clean_data
+```
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+## Evaluation
+
+**Supported models:**
+gpt-35, gpt-4, gpt-4o-mini, gpt-4o, claude-3-5-sonnet, llama3, mistral-7b, mixtral-8x7b, gemma2-2b, qwen2-7b. You can also add new models under `load_model()` function in `/evaluation/eval.py`.
+
+### Closed-Book Setting
+
+In closed-book setting, we ask the questions directly without providing extra information.
+
+```bash
+python evaluation/eval.py \
+  --eval_setting closed-book \
+  --model_name gpt-35 \
+  --input_path ./data/clean_data/<question-file-name>.csv \
+  --output_path ./evaluation/results
+```
+
+### Constraint Open-Book Setting
+
+In the constrained open-book setting, we explore how access to news articles up to different time cutoffs influences LLM performance using RAG.
+
+**Step 1: Tokenize data for RAG**
+```bash
+python evaluation/rag_tokenize_data.py \
+  --news_path ./news/<news-file-name>.csv \
+  --question_path ./data/clean_data/<question-file-name>.csv \
+  --output_path ./evaluation/rag_data/input
+```
+
+**Step 2: Retrieve articles**
+- `RAG_cutoff`: the latest accessible date for retrieving articles \
+- The accessible date range for a question with resolution date `d_res` is [start_date_of_news_corpus, min(`d_res` − 1, `RAG_cutoff`))
+
+- For questions' resolution date is \
+a) before RAG_cutoff, we have dynamic_cutoff with the retriver having information up to `d_res`-1 \
+b) after RAG_cutoff, we have a fixed retreiver with information up to RAG_cutoff
+
+For the following command, use `--dynamic_cutoff` for scenario (a). For scenario (b), omit the flag.
+
+```bash
+python evaluation/rag.py \
+  --news_path ./evaluation/rag_data/input/<news-file-name>_tokenized.pkl \
+  --question_path ./evaluation/rag_data/input/<question-file-name>_tokenized.pkl \
+  --output_path ./evaluation/rag_data/output \
+  --cutoff_date 2024-03-01 \
+  --dynamic_cutoff
+```
+
+**Step 3: Evaluation**
+
+Note that the `--input path` should be the pickle file generated in Step 2.
+```bash
+python evaluation/eval.py \
+  --eval_setting open-book \
+  --model_name gpt-35 \
+  --input_path ./evaluation/rag_data/output/cutoff_<cutoff_date>/<rag-question-file-name>.pkl \
+  --output_path ./evaluation/results 
+```
+
+### Gold Article Setting
+In the gold article setting, models are provided direct access to the gold article, from which the question is generated.
+```bash
+python evaluation/eval.py \
+  --eval_setting gold-article \
+  --model_name gpt-35 \
+  --input_path ./data/clean_data/<question-file-name>.csv \
+  --output_path ./evaluation/results
+```
+
+## BibTex
+```bibtex
+@article{dai2024dailyoracle,
+  title={Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle},
+  author={Dai, Hui and Teehan, Ryan and Ren, Mengye},
+  journal={arXiv preprint arXiv:2411.08324},
+  year={2024}
+}
+```

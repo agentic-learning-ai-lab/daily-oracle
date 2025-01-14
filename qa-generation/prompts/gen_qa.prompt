@@ -1,0 +1,61 @@
+[Setup:] Today is {}. You will be testing people who are from the past, i.e. a week or a month ago. A recently published article will serve as the basis for your questioning. Your objective is to ask them questions that assess the accuracy and plausibility of their predictions about events.
+
+You will write question-answer pairs:
+1. The question should challenge the person to predict an outcome or development related to the article's content as if they were being asked one week or one month ago. Please provide the question that can be answered on {}, but only guessable not answerable before {}.
+2. The answer MUST be based on factual information from the article. Ensure that the answers do not predict outcomes that have not been explicitly stated in the article. 
+
+[Rules:] 
+Article: {}. 
+Publishing date: {}
+
+Please generate four questions about the above article, along with answers. You should follow the instructions below:
+1. Please turn the key point "{}" into the question, with focusing more on whether the event will happen.
+2. The question should NOT be designed for reading comprehension. Please focus more on what happened rather than the implications after the event.
+3. The question MUST be in future tense. 
+- Start the first question with "Will", with the answer as "Yes".
+- Start the second question with "Will", with the answer as "No".
+- Start the third and fourth question with a phrase like "What will", "Who will", "Where will", "Which xxx will", "How much will", or "How many will".
+4. There must be a time element in the question. It can be phrases like "In {} ...", "By {}, ...", "... in {}?".
+5. You MUST NOT use unclear implicit time element phrases like "in the future" or "in the upcoming weeks".
+6. You should avoid: questions that require numerical reasoning; questions that require substantial world knowledge.
+7. The answer MUST be short and concise, avoiding using redundant words or repeating the information in the question.
+8. The question must be grammatically correct and contain the information required to answer. NO "he, she, they, it, them, etc" allowed. Please clearly write out the entity you are referencing in the question.
+9. The question MUST be able to be answered by the article.
+10. The question MUST NOT include the information that came out just now. It should be understandable to people from the past. Avoid using "How will" or "Why will" questions, as they imply that the event has already occurred.
+
+[Suggested questions and questions to avoid are detailed below:]
+
+- Keypoint: Delhi experienced its highest-ever temperature of 49.9 degrees Celsius on Tuesday, leading to water rationing due to the oppressive heat wave.
+- Suggested Question: Will Delhi break the highest temperature record again by May 2024?
+- Avoid This Question: Will extreme heat events continue to pose a threat to India's development in the upcoming years?
+- Reason to Avoid: The time constraint "in the upcoming years" is vague and the question can not be answered based on today's knowledge.
+
+- Keypoint: Owners of nearly 84,000 older Nissan vehicles in the United States equipped with recalled, unrepaired Takata air bags, including models such as the 2002-2006 Nissan Sentra, are advised by NHTSA to immediately stop driving them due to safety concerns.
+- Suggested Question: Will the older Nissan vehicles such as the 2002-2006 Nissan Sentra exhibit quality issues by May 2024?
+- Avoid This Question: Will owners of the 2002-2006 Nissan Sentra, 2002-2004 Nissan Pathfinder, and 2002-2003 Infiniti QX4 heed the NHTSA's advice to immediately stop driving their vehicles in late May 2024?
+- Reason to Avoid: This question is overly specific. People from the past would not have known the "NHTSA's advice".
+
+- Keypoint: Children's sketches of violent scenes, likely made by children aged 5-7 before the eruption of Mt. Vesuvius in 79 AD, have been uncovered at the archaeological park of Pompeii.
+- Suggested Question: Will children's sketches of violent scenes be discovered at the archaeological park of Pompeii by May 2024?
+- Avoid This Question: Will the newly discovered children's sketches at the archaeological park of Pompeii be available for public viewing by May 2024?
+- Reason to Avoid:  This question includes future events about newly discovered children's sketches in Pompeii, which wouldn't be known to a past audience
+
+- Keypoint: North Korea has been sending "filth and garbage" across the border to South Korea using giant balloons as a new strategy, prompting South Korean authorities to warn of the objects landing in residential areas. The move, according to North Korean state media KCNA, was to retaliate against South Korean activists who often send materials to the North.
+- Suggested Question: What will North Korea do to retaliate against South Korean activists who often send materials to the North by May 2024?
+- Avoid This Question: Will North Korea continue using balloons to send items across the border to South Korea by May 2024?
+- Reason to Avoid: The word "continue" should not be used here. The question MUST NOT include the information that came out just now.
+
+[Output:] Now please write four clear and concise question-answer pairs following the instructions and examples above. Once again the question should NOT be designed for reading comprehension but of forecasting interests. Also, vague and implicit time elements like "in the future", "in the upcoming weeks" or "in the coming years" should NOT be used. The question should be able to answer on {}, but only guessable not answerable before {}. You should output the question along with its answer, in the format of 
+"""
+Question 1: "Will xxx?"
+Answer 1: Yes.
+
+Question 2: "Will xxx?"
+Answer 2: No.
+
+Question 3: Either "What will xxx?", "Who will xxx?", "Where will xxx?", "Which xxx will", "How much will xxx?", or "How many will xxx?"
+Answer 3: xxx.
+
+Question 4: Either "What will xxx?", "Who will xxx?", "Where will xxx?", "Which xxx will", "How much will xxx?", or "How many will xxx?"
+Answer 4: xxx.
+"""

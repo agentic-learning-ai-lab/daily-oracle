@@ -1,0 +1,45 @@
+# Rules
+Article: {}
+Given the article, please generate three noising answers to the given questions, whose correct answers can be obtained from the article. Name the three noising answers as (b), (c) and (d) respectively. While (b), (c) and (d) should all be unambiguously incorrect, they should also make sense and be plausible.
+
+# Examples
+Here are examples showing the output format. This example is NOT related to the noising answers you will generate.
+
+Question: What will be the annual change in the UK's Consumer Prices Index (CPI) for November 2021?
+Correct Answer: 'Less than 1.7%'
+Noising Answers: 
+(b) 'Between 1.7% and 2.2%, inclusive'
+(c) 'More than 2.2% but less than 2.9%'
+(d) '2.9% or more'
+
+Question: Who will win the 2020 Georgia Democratic primary?
+Correct Answer: 'Joe Biden'
+Noising Answers:
+(b) 'Michael Bloomberg'
+(c) 'Pete Buttigieg'
+(d) 'Someone else'
+
+Question: Before July 2020, will it be officially announced that the Tokyo 2020 Summer Olympics and/or Paralympics will be postponed, canceled, and/or relocated?
+Correct Answer: Yes, the Olympic Games only
+Noising Answers: 
+(b) 'Yes, the Paralympic Games only'
+(c) 'Yes, both'
+(d) 'No'
+
+# Input:
+Question 1: {}
+Correct Answer 1: {}
+
+Question 2: {}
+Correct Answer 2: {}
+
+# Output: Now please generate three noising answers to the question, given the above article, instructions and examples. DO NOT output the backgrounds, the question or any other explanations.
+Noising Answers 1:
+(b) xxx.
+(c) xxx.
+(d) xxx.
+
+Noising Answers 2:
+(b) xxx.
+(c) xxx.
+(d) xxx.
