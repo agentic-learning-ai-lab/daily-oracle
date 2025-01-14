@@ -5,6 +5,8 @@
 
 ![Closed-Book Evaluation Results](assets/main_plot.png)
 
+![Examples](assets/example.png)
+
 ## Setup
 ```bash
 git clone git@github.com:agentic-learning-ai-lab/daily-oracle.git
