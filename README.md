@@ -3,13 +3,19 @@
 
 **Daily Oracle** is a continuous evaluation benchmark using automatically generated QA pairs from daily news to assess how the future prediction capabilities of LLMs evolve over time.
 
+![Closed-Book Evaluation Results](assets/main_plot.png)
+
 ## Setup
 ```bash
+git clone git@github.com:agentic-learning-ai-lab/daily-oracle.git
+cd daily-oracle
 pip install -r requirements.txt
 ```
 
 ## QA Generation
 `/qa-generation` folder contains code for generating TF (True/False) and MC (Multiple Choice) QA pairs from daily news, with news articles selected either randomly or based on hot topics.
+
+![QA Generation Plot](assets/qa_gen_plot.png)
 
 **Step 1: Select news articles from hot topics** 
 
