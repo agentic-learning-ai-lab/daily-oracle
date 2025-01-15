@@ -116,7 +116,7 @@ def clean_and_save_data(data, output_path, start_date, end_date):
         temp_df['source_domain'] = data.source_domain
         temp_df['qa_filter'] = get_ls(data.qa, i, 'qa_filter')
         temp_df['points'] = get_ls(data.qa, i, 'points')
-        temp_df['total_points'] = [d['total'] if d!=None else None for d in temp_df['points']]
+        temp_df['total_points'] = [d.get('total', None) if d!=None else None for d in temp_df['points']]
         temp_df.drop(columns=['points'], inplace=True)
         clean_df = pd.concat([clean_df, temp_df])
 
@@ -150,7 +150,7 @@ def clean_and_save_data(data, output_path, start_date, end_date):
         temp_df['source_domain'] = data.source_domain
         temp_df['qa_filter'] = get_ls(data.qa, i, 'qa_filter')
         temp_df['points'] = get_ls(data.qa, i, 'points')
-        temp_df['total_points'] = [d['total'] if d!=None else None for d in temp_df['points']]
+        temp_df['total_points'] = [d.get('total', None) if d!=None else None for d in temp_df['points']]
         temp_df.drop(columns=['points'], inplace=True)
         clean_df = pd.concat([clean_df, temp_df])
     
