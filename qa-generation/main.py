@@ -7,6 +7,8 @@ from openai import OpenAI
 from datetime import datetime, timedelta
 from utils import load_data, get_prompt
 
+import dotenv
+
 
 # Constants
 MODEL_MAPPING = {
@@ -170,6 +172,7 @@ def process_date(client, article_selection, date, df, output_path):
 
 
 def main(args):
+    dotenv.load_dotenv()
     client = OpenAI()
 
     article_selection = args.article_selection

@@ -166,6 +166,7 @@ def main(args):
     os.makedirs(output_path, exist_ok=True)
 
     date_range = pd.date_range(start=start_date, end=end_date)
+    print(date_range)
 
     # Combine daily data
     all_dfs = []
@@ -180,7 +181,8 @@ def main(args):
         except FileNotFoundError:
             print(f"Data files missing for {date_str}, skipping...")
             continue
-
+    
+    final_df=None
     if all_dfs:
         final_df = pd.concat(all_dfs, ignore_index=True)
         final_df.reset_index(drop=True, inplace=True)
@@ -189,6 +191,8 @@ def main(args):
 
     # Process the responses in the QA filter step and get the points
     final_df = process_qa_filter(final_df) 
+    final_df.rename(columns={'source': 'source_domain'}, inplace=True)
+    # print(final_df.columns)
 
     # Clean and save TF and MC QA pairs
     final_df = clean_and_save_data(final_df, output_path, start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d"))

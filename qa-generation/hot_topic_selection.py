@@ -7,6 +7,7 @@ import os
 import random
 import re
 from datetime import datetime, timedelta
+import json
 
 import pandas as pd
 import numpy as np
@@ -158,6 +159,7 @@ def process_date(date, data, output_path):
     """
     Process and save selected articles for a specific date.
     """
+    # print(str(date) + " 01010101")
     daily_data = data[data['date'] == date]
     if daily_data.empty:
         print(f"No data for date: {date}")
@@ -194,9 +196,35 @@ def process_date(date, data, output_path):
     selected_articles.to_csv(os.path.join(save_path, 'articles_selected.csv'), index=False)
     print(f"Articles for {date} saved successfully!")
 
+def check_file_type(file_path):
+    try:
+        with open(file_path) as f:
+            json.load(f)
+        return "json"
+    except json.JSONDecodeError:
+        try:
+            pd.read_csv(file_path, nrows=5)
+            return "csv"
+        except Exception:
+            return "unknown"
+
 
 def main(args):
-    data = load_data(args.input_path)
+    data_type = check_file_type(args.input_path)
+    data = ""
+    if data_type == "unknown":
+        print("invalid / unknown input file type")
+        return
+    elif data_type == "json":
+        df = pd.read_json(args.input_path)
+        _, ext = os.path.splitext(args.input_path)
+        df.to_csv(_ + ".csv")
+        data = load_data(_ + ".csv")
+
+
+    
+    print(data)
+    # return
     
     start_date = datetime.strptime(args.start_date, "%Y-%m-%d")
     end_date = datetime.strptime(args.end_date, "%Y-%m-%d")
@@ -205,6 +233,8 @@ def main(args):
     
     for current_date in tqdm(date_range, desc="Processing Dates"):
         date_str = current_date.strftime("%Y-%m-%d")
+        # date_str = current_date.strftime("%m/%d/%Y") # scraper qa-generation discrepancy
+
         print(f"\nProcessing date: {date_str}")
         process_date(date_str, data, args.output_path)
         
