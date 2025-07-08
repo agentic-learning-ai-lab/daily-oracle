@@ -160,15 +160,15 @@
     <h2 class="title is-5">Dataset Overview</h2>
     <ul style="list-style-type: disc; padding-left: 20px;">
       <li><strong>Daily Oracle</strong> is a continuous evaluation benchmark using automatically generated QA pairs from daily news to assess how the future prediction capabilities of LLMs evolve over time.</li>
-      <li>While Daily Oracle is daily updated, for our current analysis we use the subset covering the period from January 2020 to September 2024 (~17.3 questions per day).</li>
+      <li>While Daily Oracle is daily updated, for our current analysis we use the subset covering the period from January 2020 to December 2024 (~17.2 questions per day).</li>
     </ul>
     <!-- Container for side-by-side images -->
     <div class="hero-body" style="display: flex; justify-content: center; align-items: center; gap: 20px;">
       <div style="flex: 2.5;">
-        <img src="static/images/question_size.png" alt="Pie Category" style="width: 100%; height: auto;"/>
+        <img src="static/images/question_size.png" alt="Question Size" style="width: 100%; height: auto;"/>
       </div>
       <div style="flex: 7.5;">
-        <img src="static/images/pie_category.png" alt="Question Size" style="width: 100%; height: auto;"/>
+        <img src="static/images/pie_category.png" alt="Pie Category" style="width: 100%; height: auto;"/>
       </div>
     </div>
   </div>
@@ -180,7 +180,7 @@
   <div class="container is-max-desktop">
     <h2 class="title is-5">Example QA pairs</h2>
     <div class="hero-body">
-      <center><img src="static/images/example.png" alt="MY ALT TEXT" style="width: 80%; height: auto;"/>
+      <center><img src="static/images/example.png" alt="Example QA Paris" style="width: 80%; height: auto;"/>
     </div>
   </div>
 </section>
@@ -190,9 +190,9 @@
 <section class="hero is-small">
   <div class="container is-max-desktop">
     <h2 class="title is-5">QA Construction Pipeline</h2>
-    <h2> For each day, we collect news articles from the daily-updated Common Crawl News Datase, and use LLM to generate QA pairs with the few-shot prompting technique.</h2>
+    <h2> For each day, we collect news articles from the daily-updated Common Crawl News Dataset and scrape news using the Newspaper3k package. We use LLM to generate QA pairs with the few-shot prompting technique.</h2>
     <div class="hero-body">
-      <center><img src="static/images/qa-gen-plot-v2.png" alt="MY ALT TEXT" style="width: 80%; height: auto;"/>
+      <center><img src="static/images/qa-gen-plot-v2.png" alt="QA Construction" style="width: 80%; height: auto;"/>
     </div>
   </div>
 </section>
@@ -301,27 +301,32 @@
 
 
 <!-- Paper poster -->
-<!-- <section class="hero is-small is-light">
+<section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
       <h2 class="title">Poster</h2>
 
-      <iframe  src="static/pdfs/sample.pdf" width="100%" height="550">
+      <iframe  src="static/pdfs/icml_poster_daily_oracle.pdf" width="100%" height="550">
           </iframe>
         
       </div>
     </div>
-  </section> -->
+  </section>
 <!--End paper poster -->
 
 
 <!--BibTex citation -->
-  <!-- <section class="section" id="BibTeX">
+  <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>BibTex Code Here</code></pre>
+      <pre><code>@inproceedings{dai2025dailyoracle,
+  title={Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle}, 
+  author={Dai, Hui and Teehan, Ryan and Ren, Mengye},
+  booktitle={International Conference on Machine Learning},  
+  year={2025}
+}</code></pre>
     </div>
-</section> -->
+</section>
 <!--End BibTex citation -->
 
 
