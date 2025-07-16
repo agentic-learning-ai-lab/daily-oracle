@@ -38,6 +38,10 @@
   href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="stylesheet" href="static/css/index.css">
 
+  <!-- D3 & Plotly for interactive charts -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
@@ -153,6 +157,105 @@
 </section>
 <!-- End paper abstract -->
 
+<section class="hero is-small">
+  <div class="container is-fullwidth">
+        <div class="section">
+          <h3 class="title is-4">Model Performance Over Time (Closed-Book)</h3>
+          <div class="field is-grouped is-flex-wrap-wrap">
+            <div class="control">
+              <label class="label">From:</label>
+              <input class="input" type="month" id="startMonth">
+            </div>
+            <div class="control">
+              <label class="label">To:</label>
+              <input class="input" type="month" id="endMonth">
+            </div>
+          </div>
+          <div class="field">
+            <label class="checkbox">
+              <input type="checkbox" id="showRaw">
+              Show raw trend
+            </label>
+          </div>
+          <div class="field">
+            <label class="label">Models:</label>
+            <div id="seriesToggles" class="control"></div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <h4 class="subtitle">TF Questions</h4>
+              <div id="trendPlotTF" style="height:520px;"></div>
+            </div>
+            <div class="column">
+              <h4 class="subtitle">MC Questions</h4>
+              <div id="trendPlotMC" style="height:520px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+
+<!-- ===== Interactive Analysis Section ===== -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-5">Browse Daily QA pairs</h2>
+      <!-- QA Browser -->
+      <div class="box">
+        <div class="columns">
+          <div class="column is-half">
+            <div class="field">
+              <label class="label">Select date:</label>
+              <div class="control">
+                <input class="input" type="date" id="qaDatePicker">
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Category:</label>
+              <div class="control">
+                <div class="select is-fullwidth">
+                  <select id="qaCategoryFilter">
+                    <option value="All">All</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h4 class="subtitle">True/False Questions</h4>
+        <div class="table-container scrollable-table">
+          <table class="table is-striped is-fullwidth" id="qaTableTF">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Source Article</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <h4 class="subtitle" style="margin-top:2em;">Multiple‑Choice Questions</h4>
+        <div class="table-container scrollable-table">
+          <table class="table is-striped is-fullwidth" id="qaTableMC">
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>a</th>
+                <th>b</th>
+                <th>c</th>
+                <th>d</th>
+                <th>Answer</th>
+                <th>Source Article</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 <!--Pipeline -->
 <section class="hero is-small">
   <div class="container is-max-desktop">
@@ -175,7 +278,7 @@
 </section>
 <!-- Pipeline -->
 
-<!--example -->
+<!-- example -->
 <section class="hero is-small">
   <div class="container is-max-desktop">
     <h2 class="title is-5">Example QA pairs</h2>
@@ -184,19 +287,19 @@
     </div>
   </div>
 </section>
-<!--example -->
 
-<!--example -->
+
+<!--qa construction -->
 <section class="hero is-small">
   <div class="container is-max-desktop">
     <h2 class="title is-5">QA Construction Pipeline</h2>
     <h2> For each day, we collect news articles from the daily-updated Common Crawl News Dataset and scrape news using the Newspaper3k package. We use LLM to generate QA pairs with the few-shot prompting technique.</h2>
     <div class="hero-body">
-      <center><img src="static/images/qa-gen-plot-v2.png" alt="QA Construction" style="width: 80%; height: auto;"/>
+      <center><img src="static/images/qa-gen-plot-v2.png" alt="QA Construction" style="width: 60%; height: auto;"/>
     </div>
   </div>
 </section>
-<!--example -->
+<!--qa construction -->
 
 <!--Pipeline -->
 <section class="hero is-small">
@@ -210,9 +313,8 @@
     <div class="hero-body">
       <center><img src="static/images/main_plot.png" alt="MY ALT TEXT"/>
     </div>
-
 </section>
-<!-- Pipeline -->
+
 
 <!-- Image carousel -->
 <section class="hero is-small">
@@ -223,7 +325,6 @@
         <li>In the constrained open-book setting, we explore how access to news articles up to different time cutoffs influences LLM performance using RAG.</li>
         <li>RAG cutoff: the latest accessible date for retrieving articles.</li>
         <li>RAG has the potential to enhance prediction accuracy, the performance degradation pattern persists, highlighting the need for continuous model updates.</li>
-        <!-- <li>Interestingly, RAG does not uniformly enhance performance. For example, Llama-3-8B may perform worse than the closed-book setting when the RAG cutoff is prior to the knowledge cutoff dates, suggesting outdated information may negatively impact performance. Additionally, for Claude-3.5-Sonnet, the constrained open-book performance lags behind its closed-book performance, likely because it already has robust representations of world events, making RAG less effective.</li> -->
       </ul>
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
@@ -300,6 +401,245 @@
 <!-- Pipeline -->
 
 
+<!-- Inline script for interactivity -->
+<script>
+  // Model definitions
+  const models = [
+    { name: 'Claude-3.5-Sonnet', id: 'claude-3-5-sonnet', color: 'green',   knowledge_cutoff: '2024-04' },
+    { name: 'GPT-4',             id: 'gpt-4',             color: 'olive',   knowledge_cutoff: '2023-04' },
+    { name: 'GPT-3.5',           id: 'gpt-35',            color: 'blue',    knowledge_cutoff: '2021-09' },
+    { name: 'Mixtral-8x7B',      id: 'mixtral-8x7b',      color: 'cyan',    knowledge_cutoff: null       },
+    { name: 'Mistral-7B',        id: 'mistral-7b',        color: 'purple',  knowledge_cutoff: null       },
+    { name: 'Llama-3-8B',        id: 'llama3',            color: 'red',     knowledge_cutoff: '2023-03' },
+    { name: 'Qwen-2-7B',         id: 'qwen2-7b',          color: 'orange',  knowledge_cutoff: null       },
+    { name: 'Gemma-2-2B',        id: 'gemma2-2b',         color: 'black',   knowledge_cutoff: '2024-07' }
+  ];
+  const colorMap = {}, nameMap = {};
+  models.forEach(m => { colorMap[m.id] = m.color; nameMap[m.id] = m.name; });
+
+  Promise.all([
+    d3.csv('./static/data/evaluation/closed_book_tf_2020-01-01_2025-06-30.csv'),
+    d3.csv('./static/data/evaluation/closed_book_mc_2020-01-01_2025-06-30.csv'),
+    d3.csv('./static/data/questions/tf_questions_2020-01-01_2025-06-30_lite.csv'),
+    d3.csv('./static/data/questions/mc_questions_2020-01-01_2025-06-30_lite.csv')
+  ]).then(([rawTFacc, rawMCacc, rawTFqa, rawMCqa]) => {
+
+    // --- Accuracy parsing & plotting ---
+    function parseAcc(raw) {
+      return raw.map(r => {
+        const obj = { date: new Date(r.date) };
+        Object.keys(r)
+          .filter(k => k.startsWith('all_acc_'))
+          .forEach(k => obj[k] = +r[k]);
+        return obj;
+      }).sort((a,b) => a.date - b.date);
+    }
+    const dataTF = parseAcc(rawTFacc),
+          dataMC = parseAcc(rawMCacc);
+
+    const rawKeys  = Object.keys(dataTF[0]).filter(k => k.startsWith('all_acc_') && !k.includes('_ma_'));
+    const maKeys   = rawKeys.map(k => k.replace('all_acc_', 'all_acc_ma_'));
+    const modelIds = rawKeys.map(k => k.replace('all_acc_', ''));
+
+    // Month range inputs
+    const allDates = dataTF.map(d=>d.date).concat(dataMC.map(d=>d.date));
+    const minMM = new Date(Math.min(...allDates)).toISOString().slice(0,7);
+    const maxMM = new Date(Math.max(...allDates)).toISOString().slice(0,7);
+    const startM = document.getElementById('startMonth'),
+          endM   = document.getElementById('endMonth');
+    [startM,endM].forEach(i => { i.min = minMM; i.max = maxMM; });
+    startM.value = minMM;
+    endM.value   = maxMM;
+
+    // Model toggles
+    const toggles = document.getElementById('seriesToggles');
+    modelIds.forEach(id => {
+      const cb = document.createElement('input');
+      cb.type = 'checkbox'; cb.id = 'cb_' + id; cb.checked = true;
+      cb.addEventListener('change', drawPlots);
+      const lbl = document.createElement('label');
+      lbl.htmlFor = cb.id; lbl.className = 'checkbox'; lbl.style.marginRight = '1em';
+      lbl.appendChild(cb); lbl.append(' ' + nameMap[id]);
+      toggles.appendChild(lbl);
+    });
+    document.getElementById('showRaw').addEventListener('change', drawPlots);
+    [startM,endM].forEach(i => i.addEventListener('change', drawPlots));
+
+    function drawPlots() {
+      const [y1,m1] = startM.value.split('-').map(Number),
+            [y2,m2] = endM.value.split('-').map(Number),
+            from     = new Date(y1,m1-1,1),
+            to       = new Date(y2,m2,0),
+            showRaw  = document.getElementById('showRaw').checked;
+
+      function buildTraces(data) {
+        return modelIds.flatMap((id,i) => {
+          if (!document.getElementById('cb_' + id).checked) return [];
+          const wd = data.filter(d => d.date >= from && d.date <= to);
+          const arr = [{
+            x: wd.map(d => d.date),
+            y: wd.map(d => d[maKeys[i]]),
+            mode: 'lines',
+            name: nameMap[id] + ' (MA)',
+            line: { color: colorMap[id], dash: 'solid' }
+          }];
+          if (showRaw) {
+            arr.push({
+              x: wd.map(d => d.date),
+              y: wd.map(d => d[rawKeys[i]]),
+              mode: 'lines',
+              name: nameMap[id] + ' (raw)',
+              line: { color: colorMap[id], dash: 'dash' }
+            });
+          }
+          return arr;
+        });
+      }
+
+      const shapes = models
+        .filter(m => m.knowledge_cutoff && document.getElementById('cb_' + m.id).checked)
+        .map(m => {
+          const cd = new Date(m.knowledge_cutoff + '-01');
+          return {
+            type: 'line', xref: 'x', x0: cd, x1: cd,
+            yref: 'paper', y0: 0, y1: 1,
+            line: { color: m.color, width: 2, dash: 'dot' }
+          };
+        });
+
+      const cutoffTrace = {
+        x: [from, to], y: [0, 0], mode: 'lines',
+        name: 'Knowledge cutoff',
+        line: { color: 'gray', dash: 'dot' },
+        showlegend: true, hoverinfo: 'none', visible: 'legendonly'
+      };
+
+      Plotly.newPlot('trendPlotTF',
+        [cutoffTrace].concat(buildTraces(dataTF)),
+        {
+          margin: { t: 40, b: 40, l: 50, r: 20 },
+          xaxis: { title: 'Date' }, yaxis: { title: 'TF Accuracy' },
+          legend: { orientation: 'h', x: 0, y: -0.2 }, shapes: shapes
+        }, { responsive: true }
+      );
+
+      Plotly.newPlot('trendPlotMC',
+        [cutoffTrace].concat(buildTraces(dataMC)),
+        {
+          margin: { t: 40, b: 40, l: 50, r: 20 },
+          xaxis: { title: 'Date' }, yaxis: { title: 'MC Accuracy' },
+          legend: { orientation: 'h', x: 0, y: -0.2 }, shapes: shapes
+        }, { responsive: true }
+      );
+    }
+
+    // --- QA Browser logic ---
+    const tfData = rawTFqa.map(r => ({
+      date:     r.date,
+      question: r.question,
+      answer:   r.answer,
+      title:    r.title,
+      url:      r.url,
+      category: r.category
+    }));
+    const mcData = rawMCqa.map(r => ({
+      date:     r.date,
+      question: r.question,
+      a:        r.choice_a,
+      b:        r.choice_b,
+      c:        r.choice_c,
+      d:        r.choice_d,
+      answer:   r.answer,
+      title:    r.title,
+      url:      r.url,
+      category: r.category
+    }));
+
+    // Populate category filter
+    const categories = Array.from(new Set(
+      tfData.map(r => r.category)
+      .concat(mcData.map(r => r.category))
+    )).sort();
+    const catFilter = document.getElementById('qaCategoryFilter');
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat; opt.text = cat;
+      catFilter.appendChild(opt);
+    });
+
+    // Setup date picker to latest date
+    const qaPicker = document.getElementById('qaDatePicker');
+    const allQADates = Array.from(new Set(
+      tfData.map(r => r.date).concat(mcData.map(r => r.date))
+    )).sort();
+    qaPicker.min   = allQADates[0];
+    qaPicker.max   = allQADates[allQADates.length - 1];
+    qaPicker.value = allQADates[allQADates.length - 1];
+
+    qaPicker.addEventListener('change', () => renderQA(qaPicker.value));
+    catFilter.addEventListener('change', () => renderQA(qaPicker.value));
+
+    function renderQA(date) {
+      const selectedCat = catFilter.value;
+
+      // True/False
+      const tfRows = tfData.filter(r =>
+        r.date === date &&
+        (selectedCat === 'All' || r.category === selectedCat)
+      );
+      const tfBody = document.querySelector('#qaTableTF tbody');
+      tfBody.innerHTML = '';
+      if (!tfRows.length) {
+        tfBody.innerHTML = `<tr><td colspan="3" class="has-text-centered">
+          No TF questions for ${date}
+        </td></tr>`;
+      } else tfRows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.question}</td>
+          <td>${r.answer}</td>
+          <td><a href="${r.url}" target="_blank">${r.title}</a></td>
+        `;
+        tfBody.appendChild(tr);
+      });
+
+      // Multiple-Choice
+      const mcRows = mcData.filter(r =>
+        r.date === date &&
+        (selectedCat === 'All' || r.category === selectedCat)
+      );
+      const mcBody = document.querySelector('#qaTableMC tbody');
+      mcBody.innerHTML = '';
+      if (!mcRows.length) {
+        mcBody.innerHTML = `<tr><td colspan="7" class="has-text-centered">
+          No MC questions for ${date}
+        </td></tr>`;
+      } else mcRows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.question}</td>
+          <td>${r.a}</td>
+          <td>${r.b}</td>
+          <td>${r.c}</td>
+          <td>${r.d}</td>
+          <td>${r.answer}</td>
+          <td><a href="${r.url}" target="_blank">${r.title}</a></td>
+        `;
+        mcBody.appendChild(tr);
+      });
+    }
+
+    // Initial render
+    drawPlots();
+    renderQA(qaPicker.value);
+
+  }).catch(err => {
+    console.error(err);
+    alert('Error loading CSVs. Are you serving over HTTP?');
+  });
+</script>
+
+
 <!-- Paper poster -->
 <section class="hero is-small is-light">
   <div class="hero-body">
@@ -352,7 +692,7 @@
   
 <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
 
-    <!-- End of Statcounter Code -->
+<!-- End of Statcounter Code -->
 
-  </body>
-  </html>
+</body>
+</html>

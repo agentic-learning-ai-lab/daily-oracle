@@ -133,5 +133,9 @@ body {
   font-size: smaller;
 }
 
-
+/* limit height and enable scrollbars */
+.scrollable-table {
+  max-height: 300px;
+  overflow-y: auto;
+}
 
