@@ -1,5 +1,5 @@
 # Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle
-### [Paper](https://arxiv.org/pdf/2411.08324) | [Website](https://agenticlearning.ai/daily-oracle/) | [Dataset](https://drive.google.com/drive/folders/1zMmV5RRxBIcwavxhLvAz-0ZlkVeQPQRG)
+### [Paper](https://arxiv.org/pdf/2411.08324) | [Website](https://agenticlearning.ai/daily-oracle/) | [Dataset](https://huggingface.co/datasets/agentic-learning-ai-lab/daily-oracle)
 
 **Daily Oracle** is a continuous evaluation benchmark using automatically generated QA pairs from daily news to assess how the future prediction capabilities of LLMs evolve over time.
 
@@ -135,10 +135,10 @@ python evaluation/eval.py \
 
 ## BibTex
 ```bibtex
-@article{dai2024dailyoracle,
-  title={Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle},
+@inproceedings{dai2025dailyoracle,
+  title={Are LLMs Prescient? A Continuous Evaluation using Daily News as the Oracle}, 
   author={Dai, Hui and Teehan, Ryan and Ren, Mengye},
-  journal={arXiv preprint arXiv:2411.08324},
-  year={2024}
+  booktitle={International Conference on Machine Learning},  
+  year={2025}
 }
 ```
